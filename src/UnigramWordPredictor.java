@@ -34,7 +34,7 @@ public class UnigramWordPredictor implements WordPredictor {
    * After tokenizing, the tokens would be: ["the", "cat", "sat", ".", "the", "cat", "slept", ".", "the", "dog", "barked", "."]
    * 
    * The resulting map (neighborMap) would be:
-   * {
+   * {  
    *   "the" -> ["cat", "cat", "dog"],
    *   "cat" -> ["sat", "slept"],
    *   "sat" -> ["."],
@@ -52,6 +52,21 @@ public class UnigramWordPredictor implements WordPredictor {
     List<String> trainingWords = tokenizer.tokenize(scanner);
 
     // TODO: Convert the trainingWords into neighborMap here
+    Map<String, List<String>> map = new HashMap<>();
+    String currentWord = null;
+    String nextWord = null;
+// loop through the trainingWords list to populate the neighborMap, stop at the last word since it has no next word
+    for (int i = 0; i < trainingWords.size() - 1; i++) {
+      currentWord = trainingWords.get(i);
+      nextWord = trainingWords.get(i + 1);
+
+      if (!map.containsKey(currentWord)) {
+        map.put(currentWord, new ArrayList<>());
+      }
+      map.get(currentWord).add(nextWord);
+    }
+    // Assign the constructed map to the neighborMap instance variable
+    neighborMap = map;  
   }
 
   /**
